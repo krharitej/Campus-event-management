@@ -99,15 +99,21 @@ _Student APP (Mobile)_
 3. Install dependencies
 4. Run the application
 
-- `cd backend`
+```
+cd backend
+```
 
 ### Installing dependencies
 
-- `npm i`
+```
+npm i
+```
 
 ### Running the Application
 
-- `npm run dev`
+```
+npm run dev
+```
 
 ## Files Structure
 
