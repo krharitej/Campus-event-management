@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Events - Student App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1FB8CD">
+</head>
+
+<body>
+    <!-- Switch Button for Student App -->
+    <div style="position: fixed; bottom: 70px; right: 15px; z-index: 1000;">
+        <a href="/admin"
+            style="color: #2ecc71; background: rgb(15, 13, 60); padding: 8px 12px; border-radius: 5px; text-decoration: none; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            👑 Switch to Admin Portal
+        </a>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading Campus Events...</p>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="screen active">
+        <div class="login-container">
+            <div class="app-header">
+                <h1>🎓 Campus Events</h1>
+                <p>Connect. Learn. Participate.</p>
+            </div>
+
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label class="form-label">College</label>
+                    <select id="collegeSelect" class="form-control" required>
+                        <option value="">Select your college</option>
+                        <option value="MIT">MIT - Massachusetts Institute of Technology</option>
+                        <option value="STANFORD">Stanford University</option>
+                        <option value="IITD">IIT Delhi</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="emailInput" class="form-control" placeholder="your.email@college.edu"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="passwordInput" class="form-control" placeholder="Enter your password"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="rememberMe">
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn--primary btn--full-width login-btn">
+                    Sign In
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="main-app hidden">
+        <!-- Top Header -->
+        <header class="top-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h2 id="screenTitle">Dashboard</h2>
+                </div>
+                <div class="header-right">
+                    <button id="themeToggle" class="icon-btn">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <button id="profileBtn" class="icon-btn">
+                        <span class="profile-avatar">👤</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <main class="main-content">
+            <!-- Dashboard Screen -->
+            <div id="dashboardContent" class="screen-content active">
+                <div class="dashboard-greeting">
+                    <h3 id="userGreeting">Welcome back!</h3>
+                    <p id="upcomingCount">You have upcoming events</p>
+                </div>
+
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="registeredCount">0</div>
+                        <div class="stat-label">Registered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="attendedCount">0</div>
+                        <div class="stat-label">Attended</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h4>Upcoming Events</h4>
+                    <div id="upcomingEvents" class="events-list">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Browse Events Screen -->
+            <div id="browseContent" class="screen-content">
+                <div class="browse-header">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" class="form-control search-input"
+                            placeholder="Search events...">
+                        <button id="searchBtn" class="search-btn">🔍</button>
+                    </div>
+
+                    <div class="filters">
+                        <div class="filter-row">
+                            <select id="categoryFilter" class="form-control filter-select">
+                                <option value="">All Categories</option>
+                            </select>
+                            <select id="sortFilter" class="form-control filter-select">
+                                <option value="date">Sort by Date</option>
+                                <option value="popularity">Sort by Popularity</option>
+                                <option value="deadline">Sort by Deadline</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="allEvents" class="events-list">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+
+            <!-- My Events Screen -->
+            <div id="myEventsContent" class="screen-content">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="registered">Registered</button>
+                    <button class="tab-btn" data-tab="attended">Attended</button>
+                </div>
+
+                <div id="registeredEvents" class="tab-content active">
+                    <div class="events-list">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+
+                <div id="attendedEvents" class="tab-content">
+                    <div class="events-list">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Check-in Screen -->
+            <div id="checkinContent" class="screen-content">
+                <div class="checkin-container">
+                    <h3>Event Check-in</h3>
+                    <div class="qr-scanner-placeholder">
+                        <div class="scanner-frame">
+                            <div class="scanner-line"></div>
+                            <p>📱 Position QR code within frame</p>
+                        </div>
+                    </div>
+
+                    <div class="checkin-options">
+                        <button id="scanBtn" class="btn btn--primary btn--full-width">
+                            Scan QR Code
+                        </button>
+                        <div class="or-divider">OR</div>
+                        <input type="text" id="eventCodeInput" class="form-control"
+                            placeholder="Enter event code manually">
+                        <button id="manualCheckinBtn" class="btn btn--outline btn--full-width">
+                            Manual Check-in
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Screen -->
+            <div id="profileContent" class="screen-content">
+                <div class="profile-header">
+                    <div class="profile-avatar-large">👤</div>
+                    <h3 id="profileName">Student Name</h3>
+                    <p id="profileEmail">student@college.edu</p>
+                </div>
+
+                <div class="profile-info">
+                    <div class="info-item">
+                        <label>College</label>
+                        <span id="profileCollege">MIT</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Department</label>
+                        <span id="profileDepartment">Computer Science</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Year of Study</label>
+                        <span id="profileYear">2nd Year</span>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button id="settingsBtn" class="btn btn--outline btn--full-width">
+                        Settings & Preferences
+                    </button>
+                    <button id="logoutBtn" class="btn btn--secondary btn--full-width">
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-screen="dashboard">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="nav-item" data-screen="browse">
+                <span class="nav-icon">🔍</span>
+                <span class="nav-label">Browse</span>
+            </button>
+            <button class="nav-item" data-screen="myEvents">
+                <span class="nav-icon">📅</span>
+                <span class="nav-label">My Events</span>
+            </button>
+            <button class="nav-item" data-screen="checkin">
+                <span class="nav-icon">📱</span>
+                <span class="nav-label">Check-in</span>
+            </button>
+            <button class="nav-item" data-screen="profile">
+                <span class="nav-icon">👤</span>
+                <span class="nav-label">Profile</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Event Detail Modal -->
+    <div id="eventModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalEventTitle">Event Title</h3>
+                <button id="closeModal" class="close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="event-detail-info">
+                    <div class="detail-item">
+                        <span class="detail-label">📅 Date & Time</span>
+                        <span id="modalEventDateTime"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">📍 Location</span>
+                        <span id="modalEventLocation"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">👥 Capacity</span>
+                        <span id="modalEventCapacity"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">💰 Price</span>
+                        <span id="modalEventPrice"></span>
+                    </div>
+                </div>
+
+                <div class="event-description">
+                    <h4>Description</h4>
+                    <p id="modalEventDescription"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="shareEventBtn" class="btn btn--outline">Share</button>
+                <button id="registerEventBtn" class="btn btn--primary">Register</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <span id="toastMessage"></span>
+        <button id="toastClose">✕</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
